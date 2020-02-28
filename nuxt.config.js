@@ -83,7 +83,10 @@ export default {
         }
       }
     },
-    watchLoggedIn: false
+    watchLoggedIn: false,
+    plugins: [
+      '@/plugins/laravel-echo.js'
+    ]
   },
 
   /*

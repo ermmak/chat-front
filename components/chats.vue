@@ -5,7 +5,7 @@
 
       <v-spacer/>
 
-      <v-btn icon>
+      <v-btn icon @click="$emit('newChat')">
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </v-toolbar>
@@ -32,10 +32,31 @@
 export default {
   name: 'Chats',
 
-  props: {
-    list: {
-      type: Array,
-      required: true
+  data: () => ({
+    list: []
+  }),
+
+  created () {
+    this.watchList()
+    this.setList()
+  },
+
+  methods: {
+    /**
+     * Watch list
+     */
+    watchList () {
+      this.$store.watch(({ chats }) => chats.list, (chatList) => {
+        this.list = chatList
+      })
+    },
+
+    /**
+     * Load list
+     * @returns {Promise<void>}
+     */
+    async setList () {
+      this.$store.commit('chats/setList', await this.$axios.$get('/api/v1/chats'))
     }
   }
 }

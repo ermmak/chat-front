@@ -1,9 +1,7 @@
 <template>
   <v-app light>
     <v-content>
-      <v-container class="fill-height" fluid>
-        <nuxt />
-      </v-container>
+      <nuxt/>
     </v-content>
   </v-app>
 </template>
