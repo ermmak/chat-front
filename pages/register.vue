@@ -63,6 +63,8 @@
 </template>
 
 <script>
+import { cloneDeep } from 'lodash'
+
 export default {
   name: 'Register',
 
@@ -70,21 +72,12 @@ export default {
 
   auth: 'guest',
 
-  asyncData: ({ app }) => ({
-    form: app.$form({
-      email: '',
-      name: '',
-      password: '',
-      password_confirmation: ''
-    })
-  }),
-
   data: () => ({
     form: null
   }),
 
   created () {
-    // this.setForm()
+    this.setForm()
   },
 
   methods: {
@@ -93,10 +86,21 @@ export default {
      */
     async submit () {
       try {
+        const data = cloneDeep(this.credentials())
+
         await this.form.post('/api/v1/register')
+
+        await this.$auth.loginWith('local', { data })
 
         await this.$router.push('/conversations')
       } catch {}
+    },
+
+    credentials () {
+      return {
+        email: this.form.email,
+        password: this.form.password
+      }
     },
 
     /**

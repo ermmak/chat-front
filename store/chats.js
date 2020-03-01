@@ -1,5 +1,6 @@
 export const state = () => ({
   list: [],
+  users: [],
   mode: 'list'
 })
 
@@ -11,6 +12,15 @@ export const mutations = {
    */
   setList: (state, list) => {
     state.list = list
+  },
+
+  /**
+   * Set users list
+   * @param state
+   * @param users
+   */
+  setUsers: (state, users) => {
+    state.users = users
   },
 
   /**

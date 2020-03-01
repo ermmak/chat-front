@@ -22,7 +22,7 @@
           </v-btn>
         </template>
 
-        <v-btn v-if="$auth.loggedIn" text @click="$auth.logout">
+        <v-btn v-if="$auth.loggedIn" text @click="logout">
           <v-icon left>
             mdi-logout
           </v-icon> Logout
@@ -44,6 +44,16 @@ import ErrorNotification from '@/components/ErrorNotification'
 export default {
   name: 'Default',
 
-  components: { ErrorNotification }
+  components: { ErrorNotification },
+
+  methods: {
+    /**
+     * Logout current user
+     * @returns {Promise<void>}
+     */
+    async logout () {
+      await this.$auth.logout()
+    }
+  }
 }
 </script>

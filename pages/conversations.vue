@@ -76,6 +76,11 @@ export default {
           '.chat.created',
           async () => this.$store.commit('chats/setList', await this.$axios.$get('/api/v1/chats'))
         )
+
+        this.$echo.private('users').listen(
+          '.user.created',
+          async () => this.$store.commit('chats/setUsers', await this.$axios.$get('/api/v1/users'))
+        )
       }
     }
   }
