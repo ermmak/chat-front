@@ -7,7 +7,7 @@ export default ({ $auth }, inject) => process.client && inject('echo', new Echo(
   host: `${window.location.hostname}:6001`,
   auth: {
     headers: {
-      Authorization: `Bearer ${$auth.getToken('local')}`
+      Authorization: $auth.getToken('local')
     }
   }
 }))

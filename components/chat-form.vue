@@ -1,7 +1,11 @@
 <template>
   <v-form @submit.prevent="submit">
-    <v-container>
-      <v-row>
+    <v-list>
+      <v-toolbar flat>
+        <v-toolbar-title>New chat</v-toolbar-title>
+      </v-toolbar>
+
+      <v-list-item-content>
         <v-col cols="12">
           <v-text-field
             v-model="form.name"
@@ -11,24 +15,30 @@
             :error-messages="form.errors.get('name')"
           />
         </v-col>
+      </v-list-item-content>
 
+      <v-list-item-content>
         <v-col cols="12">
-          <v-combobox
+          <v-select
             v-model="form.users"
             multiple
+            chips
+            deletable-chips
             label="Users"
             :items="users"
-            :error-messages="form.errors.get('name')"
+            :error-messages="form.errors.get('users')"
           />
         </v-col>
+      </v-list-item-content>
 
+      <v-list-item-content>
         <v-col cols="12">
           <v-btn color="primary" type="submit">
             Save
           </v-btn>
         </v-col>
-      </v-row>
-    </v-container>
+      </v-list-item-content>
+    </v-list>
   </v-form>
 </template>
 
@@ -48,8 +58,11 @@ export default {
 
   methods: {
     async submit () {
-      console.log('submit')
-      await this.form.post('/api/v1/register')
+      try {
+        await this.form.post('/api/v1/chats')
+
+        this.$emit('saved')
+      } catch {}
     },
 
     /**
