@@ -14,7 +14,7 @@
       <v-list-item
         v-for="(chat, index) in list"
         :key="index"
-        @click.prevent="setCurrent(chat)"
+        @click.prevent="setCurrentChat(chat)"
       >
         <v-list-item-content>
           <v-list-item-title>{{ chat.name }}</v-list-item-title>
@@ -46,7 +46,8 @@ export default {
     ...mapMutations({
       setChatList: 'chats/setList',
       addChat: 'chats/addChat',
-      setCurrent: 'chats/setCurrent'
+      setCurrent: 'chats/setCurrent',
+      setCurrentMessages: 'chats/setCurrentMessages'
     }),
 
     /**
@@ -55,6 +56,16 @@ export default {
      */
     async setList () {
       this.setChatList(await this.$axios.$get('/api/v1/chats'))
+    },
+
+    /**
+     * Set current chat
+     */
+    async setCurrentChat (chat) {
+      this.setCurrent(chat)
+      this.setCurrentMessages(
+        await this.$axios.$get(`/api/v1/chats/${chat.id}/messages`)
+      )
     },
 
     /**

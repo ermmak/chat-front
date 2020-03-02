@@ -2,7 +2,8 @@ export const state = () => ({
   list: [],
   users: [],
   mode: 'list',
-  current: null
+  current: null,
+  currentMessages: []
 })
 
 export const mutations = {
@@ -31,6 +32,24 @@ export const mutations = {
    */
   setCurrent: (state, current) => {
     state.current = current
+  },
+
+  /**
+   * Set current messages
+   * @param state
+   * @param messages
+   */
+  setCurrentMessages: (state, messages) => {
+    state.currentMessages = messages
+  },
+
+  /**
+   * Add message
+   * @param state
+   * @param message
+   */
+  addMessage: (state, message) => {
+    state.currentMessages.push(message)
   },
 
   /**

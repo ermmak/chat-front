@@ -61,6 +61,10 @@ export default {
   },
 
   methods: {
+    /**
+     * Send message
+     * @returns {Promise<void>}
+     */
     async sendMessage () {
       await this.$axios.$post(`/api/v1/chats/${this.current.id}/messages`, { text: this.message })
 
@@ -80,7 +84,7 @@ export default {
 .footer {
   background-color: #ffffff;
   border-top: 1px solid #cccccc;
-  height: 4rem;
+  height: 5rem;
   padding: 0.5rem;
 }
 </style>
