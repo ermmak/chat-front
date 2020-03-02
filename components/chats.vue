@@ -14,49 +14,58 @@
       <v-list-item
         v-for="(chat, index) in list"
         :key="index"
-        @click.prevent="$emit('select', chat)"
+        @click.prevent="setCurrent(chat)"
       >
         <v-list-item-content>
           <v-list-item-title>{{ chat.name }}</v-list-item-title>
         </v-list-item-content>
-
-        <v-list-item-action>
-          <v-icon>mdi-chat</v-icon>
-        </v-list-item-action>
       </v-list-item>
     </v-list-item-group>
   </v-list>
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
+
 export default {
   name: 'Chats',
 
-  data: () => ({
-    list: []
-  }),
-
   created () {
-    this.watchList()
     this.setList()
+
+    this.listenEvents()
+  },
+
+  computed: {
+    ...mapState('chats', {
+      list: ({ list }) => list
+    })
   },
 
   methods: {
-    /**
-     * Watch list
-     */
-    watchList () {
-      this.$store.watch(({ chats }) => chats.list, (chatList) => {
-        this.list = chatList
-      })
-    },
+    ...mapMutations({
+      setChatList: 'chats/setList',
+      addChat: 'chats/addChat',
+      setCurrent: 'chats/setCurrent'
+    }),
 
     /**
      * Load list
      * @returns {Promise<void>}
      */
     async setList () {
-      this.$store.commit('chats/setList', await this.$axios.$get('/api/v1/chats'))
+      this.setChatList(await this.$axios.$get('/api/v1/chats'))
+    },
+
+    /**
+     * Listen for server events
+     */
+    listenEvents () {
+      if (process.client) {
+        this.$echo.private(`chats.${this.$auth.user.id}`)
+          .listen('.chat.created', ({ chat }) => this.addChat(chat))
+          .listen('.message.created', ({ message }) => console.log(message))
+      }
     }
   }
 }

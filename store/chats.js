@@ -1,7 +1,8 @@
 export const state = () => ({
   list: [],
   users: [],
-  mode: 'list'
+  mode: 'list',
+  current: null
 })
 
 export const mutations = {
@@ -12,6 +13,24 @@ export const mutations = {
    */
   setList: (state, list) => {
     state.list = list
+  },
+
+  /**
+   * Add chat to list
+   * @param state
+   * @param chat
+   */
+  addChat: (state, chat) => {
+    state.list.push(chat)
+  },
+
+  /**
+   * Set current selected chat
+   * @param state
+   * @param current
+   */
+  setCurrent: (state, current) => {
+    state.current = current
   },
 
   /**

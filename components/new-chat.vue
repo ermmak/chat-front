@@ -32,9 +32,15 @@
       </v-list-item-content>
 
       <v-list-item-content>
-        <v-col cols="12">
+        <v-col cols="3">
           <v-btn color="primary" type="submit">
             Save
+          </v-btn>
+        </v-col>
+
+        <v-col cols="3">
+          <v-btn @click="$emit('cancel')">
+            Cancel
           </v-btn>
         </v-col>
       </v-list-item-content>
